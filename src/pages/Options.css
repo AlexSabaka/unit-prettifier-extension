@@ -1,0 +1,27 @@
+
+.Options-table {
+  scroll-behavior: auto;
+  width: 100%;
+}
+
+input {
+  margin-right: 10px;
+  float: right;
+}
+
+label {
+  margin-left: 10px;
+}
+
+.Options-measure-unit {
+  border: 1px solid #2b2f38;
+  background-color: #2b2f38;
+  border-radius: 3px;
+  margin-top: 5px;
+}
+
+.Measure-unit-buttons {
+  font-size: 12px;
+  display: flex;
+  flex-direction: row;
+}

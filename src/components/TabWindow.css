@@ -1,0 +1,28 @@
+.Tab {
+  /* text-align: center; */
+  background-color: #282c34;
+  min-height: 100vh;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.Tab-navigation {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  font-size: 12px;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+.Tab-content {
+  height: 100%;
+  justify-content: center;
+  align-content: center;
+}
+
+.Tab-content > h6 {
+  height: 100%;
+  justify-content: center;
+  align-content: center;
+}

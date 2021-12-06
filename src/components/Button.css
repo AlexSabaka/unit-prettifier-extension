@@ -1,0 +1,32 @@
+a.App-Button {
+  display: inline-block;
+  padding: 0.35em 1.2em;
+  border: 0.1em solid #ffffff;
+  margin: 0 0.3em 0.3em 0;
+  border-radius: 0.2em;
+  box-sizing: border-box;
+  text-decoration: none;
+  font-family: "Roboto", sans-serif;
+  font-weight: bold;
+  color: #ffffff;
+  text-align: center;
+  transition: all 0.2s;
+}
+
+[disabled="true"] {
+  pointer-events: none;
+  color: #cccccc;
+  border-color: #cccccc;
+}
+
+a.App-Button:hover {
+  color: #282c34;
+  background-color: #ffffff;
+}
+
+@media all and (max-width: 30em) {
+  a.App-Button {
+    display: block;
+    margin: 0.4em auto;
+  }
+}

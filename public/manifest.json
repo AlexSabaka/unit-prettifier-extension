@@ -1,0 +1,28 @@
+{
+  "manifest_version": 3,
+  "name": "UnitPrettifier",
+  "version": "0.1",
+  "description": "Converts all units on the page from one system to another",
+  "background": {
+    "service_worker": "./background.js"
+  },
+  "permissions": ["storage", "activeTab", "scripting"],
+  "author": "Alex Sabaka",
+  "short_name": "UnitPrettifier",
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "UnitPrettifier",
+    "default_icon": {
+      "16": "/images/scales-16.png",
+      "32": "/images/scales-32.png",
+      "48": "/images/scales-48.png",
+      "128": "/images/scales-64.png"
+    }
+  },
+  "icons": {
+    "16": "/images/scales-16.png",
+    "32": "/images/scales-32.png",
+    "48": "/images/scales-48.png",
+    "128": "/images/scales-64.png"
+  }
+}

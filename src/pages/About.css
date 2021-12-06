@@ -1,0 +1,51 @@
+.About {
+  font-size: small;
+  padding: 0em 1em 1em 1em;
+}
+
+.About > p {
+  text-indent: 1em;
+  margin-bottom: 0.5em;
+}
+
+.About > h2 {
+  text-align: center;
+  margin-bottom: 0em;
+  margin-top: 0em;
+  padding-bottom: 0em;
+}
+
+.About > .Copyright-info {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.6em;
+  position: absolute;
+  color: lightgray;
+  right: 0px;
+  bottom: 0px;
+  margin-right: 1em;
+  margin-bottom: 1em;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.About > .Copyright-info > span {
+  text-align: center;
+  color: darkgray;
+}
+
+.About > .Copyright-info > span > a {
+  text-decoration: underline;
+  color: darkgray;
+}
+
+.About-Examples {
+  border: 1px solid #2b2f38;
+  background-color: #2b2f38;
+  border-radius: 3px;
+  margin-bottom: 0.15em;
+}
+
+.About-Examples > p {
+  text-indent: 1em;
+  margin-bottom: 0.5em;
+}

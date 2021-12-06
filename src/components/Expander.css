@@ -1,0 +1,16 @@
+
+
+.Expander-header {
+  text-align: center;
+  width: 100%;
+}
+
+a.Expander-header-link {
+  text-decoration: none;
+  color: white;
+}
+
+a.Expander-header-link:hover {
+  text-decoration: underline;
+  color: lightgrey;
+}
