@@ -19,4 +19,4 @@ If you are using Chromium instead just replace ```chrome``` with ```chromium```
 
 ### Option 2
 Run command ```make build && make pack```
-And then in the Chrome extension window click ```Load
+And then load it by double-clicking on the ```.crx``` file
