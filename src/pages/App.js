@@ -11,10 +11,12 @@ function App() {
   const [tab, setTab] = useState('Home');
   const setAndSaveTab = (x) => {
     setTab(x);
-    //writeSyncStorage('currentTab', x);
+    writeSyncStorage('currentTab', x);
   };
   useEffect(async () => {
-    //setTab(await readSyncStorage('currentTab'));
+    const savedTab = await readSyncStorage('currentTab');
+    console.log(`Saved tab: ${savedTab}`);
+    setTab(savedTab);
   });
 
   return (
