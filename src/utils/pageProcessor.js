@@ -5,7 +5,7 @@ import Measure from './Measure';
 export async function ApplyProcessorOnCurrentTab () {
   const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
   const options = await readSyncStorage('opts');
-
+  console.log(tab, options);
   chrome.scripting.executeScript({
     target: { tabId: tab.id },
     function: () => processLoadedPage(options),
@@ -13,7 +13,6 @@ export async function ApplyProcessorOnCurrentTab () {
 };
 
 function processLoadedPage(options) {
-
   setupMeasures();
   let regex = constructRegex();
   let body = document.querySelector("body");

@@ -96,7 +96,7 @@ function Options() {
 
   return (
     <div className='Options'>
-      <p>Setup your conversion units here :)</p>
+      <p>Setup your conversion units here</p>
       <div>
         <UnitMeasurementsTable
           options={options}

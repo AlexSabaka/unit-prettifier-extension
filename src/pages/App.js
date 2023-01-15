@@ -17,7 +17,7 @@ function App() {
     const savedTab = await readSyncStorage('currentTab');
     console.log(`Saved tab: ${savedTab}`);
     setTab(savedTab);
-  });
+  }, [setTab]);
 
   return (
     <div className='App'>

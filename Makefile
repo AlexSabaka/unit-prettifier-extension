@@ -3,6 +3,9 @@
 ####################################
 
 ch = chromium
+build = build
+dist = dist
+extension_name = UnitPrettifier
 
 .PHONY: help build
 
@@ -15,31 +18,35 @@ build:
 	@export INLINE_RUNTIME_CHUNK=false; \
 	export GENERATE_SOURCEMAP=false; \
 	yarn build
-	@mkdir -p dist
-	@cp -r build/* dist
+	@mkdir -p $(dist)
+	@cp -r $(build)/* $(dist)
 	@echo 'Renaming files...' 
-	@mv dist/index.html dist/popup.html
+	@mv $(dist)/index.html $(dist)/popup.html
 	@exit 0
 
 pack:
 	@echo 'Packing extension...'
-
-	@$(ch) --pack-extension=./dist
+	@$(ch) --pack-extension=$(dist)
 	@echo 'Renaming packed extension & private key file...'
-	@mv ./dist.crx ./UnitPrettifier.crx
-	@mv ./dist.pem ./UnitPrettifier.pem
+	@mv ./$(dist).crx ./$(extension_name).crx
+	@mv ./$(dist).pem ./$(extension_name).pem
 	@echo 'Done'
 	@exit 0
 
 clean:
 	@echo 'Cleaning...'
-	@rm -rf dist/*
-	@rm -rf build/*
-	@rmdir dist
-	@rmdir build
-	@rm -f UnitPrettifier.crx
-	@rm -f UnitPrettifier.pem
+	@rm -rf ./$(dist)/*
+	@rm -rf ./$(build)/*
+	@rmdir $(dist)
+	@rmdir $(build)
+	@rm -f $(extension_name).crx
+	@rm -f $(extension_name).pem
 	@echo 'Prior build cleaned!'
+	@exit 0
+
+run:
+	@echo 'Starting '$(ch)' with extension from './$(dist)'...'
+	$(ch) --disable-extensions-except=./$(dist) --load-extension=./$(dist)
 	@exit 0
 
 define HELP_MESSAGE
@@ -49,6 +56,9 @@ define HELP_MESSAGE
 
 	--- Run this command to pack crx extension from prior build ---
 	$ make pack
+
+	--- Starts a new '$(ch)' instance with extension ---
+	$ make run
 
 	--- This command cleans prior build & artifacts ---
 	$ make clean

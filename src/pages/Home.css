@@ -1,8 +1,10 @@
-.Home > h1 {
-  text-align: center;
+.Home {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
 }
 
-.Home {
-  justify-content: center;
-  align-items: center;
+button {
+  stroke: white 1px;
 }
