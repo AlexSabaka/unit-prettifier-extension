@@ -1,12 +1,11 @@
 
 export default class Measure {
+
   constructor(unit) {
-    this.currentUnit = unit;
-    this.factor = (x) => x;
-    this.currentMultiplier = 1;
+    this.convertingTable = { };
   }
 
-  to(targetUnit) {
+  setDestinationUnit(sourceUnit, targetUnit) {
     const fail = () => { throw new Error(`Cannot convert units from '${this.currentUnit}' to '${targetUnit}'`); };
     const indirectFactor = () => {
       const key = Object.keys(Measure.convertingTable[this.currentUnit])[0];
@@ -18,7 +17,12 @@ export default class Measure {
     return this;
   };
 
-  multiplier(mult) {
+  setSourceUnit()
+  {
+
+  }
+
+  setMultiplier(mult) {
     if (mult === undefined) {
       return this;
     }
@@ -31,15 +35,14 @@ export default class Measure {
     return this;
   };
 
-  convert(value) {
-    return this.factor(value) * this.currentMultiplier;
+  convert(value, from, to) {
+    return this.from(from).to(). this.factor(value) * this.currentMultiplier;
   }
 
-  static convertingTable = { };
-  static addUnit(baseUnit, actualUnit, multiplier, offset) {
+  addUnit(baseUnit, actualUnit, multiplier, offset) {
     function _add(bu, au, m, o) {
-      Measure.convertingTable[au] = Measure.convertingTable[au] || {};
-      Measure.convertingTable[au][bu] = (x) => m * x + o;
+      this.convertingTable[au] = this.convertingTable[au] || {};
+      this.convertingTable[au][bu] = (x) => m * x + o;
     }
 
     _add(baseUnit, actualUnit, multiplier, offset);

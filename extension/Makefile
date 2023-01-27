@@ -37,8 +37,8 @@ clean:
 	@echo 'Cleaning...'
 	@rm -rf ./$(dist)/*
 	@rm -rf ./$(build)/*
-	@rmdir $(dist)
-	@rmdir $(build)
+	@rm -rf $(dist)
+	@rm -rf $(build)
 	@rm -f $(extension_name).crx
 	@rm -f $(extension_name).pem
 	@echo 'Prior build cleaned!'

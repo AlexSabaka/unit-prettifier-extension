@@ -1,18 +1,7 @@
 /*global chrome*/
-import { readSyncStorage } from './chromeUtils';
-import Measure from './Measure';
+import Measure from './Measure.js';
 
-export async function ApplyProcessorOnCurrentTab () {
-  const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-  const options = await readSyncStorage('opts');
-  console.log(tab, options);
-  chrome.scripting.executeScript({
-    target: { tabId: tab.id },
-    function: () => processLoadedPage(options),
-  });
-};
-
-function processLoadedPage(options) {
+export default function processPage(document, options) {
   setupMeasures();
   let regex = constructRegex();
   let body = document.querySelector("body");
