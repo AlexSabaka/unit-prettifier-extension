@@ -23,7 +23,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
       target: { tabId: tab.id },
       function: () => {
         function postPageForProcessing(result) {
-          const url = `https://localhost:3000/transform`;
+          const url = `http://localhost:3000/transform`;
           const reqHeaders = {
             Accept: "application/json, application/xml, text/plain, text/html, *.*",
             "Content-Type": "application/json",

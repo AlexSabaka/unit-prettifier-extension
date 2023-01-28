@@ -12,6 +12,7 @@ function App() {
     setTab(x);
     // writeSyncStorage('currentTab', x);
   };
+
   // useEffect(async () => {
   //   const savedTab = await readSyncStorage('currentTab');
   //   console.log(`Saved tab: ${savedTab}`);

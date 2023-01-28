@@ -1,4 +1,3 @@
-/*global chrome*/
 import Measure from './Measure.js';
 import { JSDOM } from 'jsdom';
 

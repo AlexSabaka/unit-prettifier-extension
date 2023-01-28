@@ -5,7 +5,7 @@
 ch = chromium
 build = build
 dist = dist
-extension_name = tifier
+extension_name = EasyMeasure
 
 .PHONY: help build
 
@@ -32,6 +32,11 @@ pack:
 	@mv ./$(dist).pem ./$(extension_name).pem
 	@echo 'Done'
 	@exit 0
+
+publish:
+	@echo 'Packing extension for the publishing in the Chrome Web Store'
+	@echo 'Not implemented'
+	@exit 255
 
 clean:
 	@echo 'Cleaning...'
