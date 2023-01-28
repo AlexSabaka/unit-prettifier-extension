@@ -1,28 +1,22 @@
 {
   "manifest_version": 3,
-  "name": "UnitPrettifier",
+  "name": "EasyMeasure",
   "version": "0.1",
-  "description": "Converts all units on the page from one system to another",
+  "description": "Convert all measures on the page from one set of units to another",
   "background": {
     "service_worker": "./background.js"
   },
-  "permissions": ["storage", "activeTab", "scripting"],
+  "permissions": ["storage", "tabs", "activeTab", "scripting", "nativeMessaging"],
   "author": "Alex Sabaka",
-  "short_name": "UnitPrettifier",
+  "short_name": "EasyMeasure",
   "action": {
     "default_popup": "popup.html",
-    "default_title": "UnitPrettifier",
+    "default_title": "EasyMeasure",
     "default_icon": {
-      "16": "/images/scales-16.png",
-      "32": "/images/scales-32.png",
-      "48": "/images/scales-48.png",
-      "128": "/images/scales-64.png"
+      "128": "/images/icon-128.png"
     }
   },
   "icons": {
-    "16": "/images/scales-16.png",
-    "32": "/images/scales-32.png",
-    "48": "/images/scales-48.png",
-    "128": "/images/scales-64.png"
+    "128": "/images/icon-128.png"
   }
 }

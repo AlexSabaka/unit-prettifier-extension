@@ -4,20 +4,18 @@ import Home from './Home';
 import Options from './Options';
 import About from './About';
 import { TabWindow, Tab } from './../components/TabWindow';
-import { writeSyncStorage, readSyncStorage } from './../utils/chromeUtils';
 import './App.css';
 
 function App() {
   const [tab, setTab] = useState('Home');
   const setAndSaveTab = (x) => {
     setTab(x);
-    writeSyncStorage('currentTab', x);
+    // writeSyncStorage('currentTab', x);
   };
-  useEffect(async () => {
-    const savedTab = await readSyncStorage('currentTab');
-    console.log(`Saved tab: ${savedTab}`);
-    setTab(savedTab);
-  }, [setTab]);
+  // useEffect(async () => {
+  //   const savedTab = await readSyncStorage('currentTab');
+  //   console.log(`Saved tab: ${savedTab}`);
+  // }, [tab]);
 
   return (
     <div className='App'>

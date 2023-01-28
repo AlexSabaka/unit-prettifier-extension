@@ -1,4 +1,4 @@
-# UnitPrettifier
+# EasyMeasure (ex. UnitPrettifier)
 
 A simple extension for Chromium-based web browsers to convert measurement units from one to another in a linear fashion.
 

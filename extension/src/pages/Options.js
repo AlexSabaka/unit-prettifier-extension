@@ -1,6 +1,5 @@
 /*global chrome*/
 import React, { useState, useEffect } from 'react';
-import { readSyncStorage, writeSyncStorage } from '../utils/chromeUtils';
 import Button from './../components/Button';
 import Expander from './../components/Expander';
 import './Options.css';
@@ -63,10 +62,12 @@ function Options() {
     { baseUnit: 'g', actualUnit: 'lb', shortFor: 'pound', plural: true, factor: '432', offset: '0' },
     { baseUnit: 'g', actualUnit: 'oz', shortFor: 'ounce', plural: true, factor: '28.35', offset: '0' }
   ]);
-  const saveOptions = () =>
-    writeSyncStorage('opts', options.reduce((acc, c) => {
-      return { ...acc, [c.actualUnit]: c };
-    }, { })); 
+
+  // const saveOptions = () =>
+  //   writeSyncStorage('opts', options.reduce((acc, c) => {
+  //     return { ...acc, [c.actualUnit]: c };
+  //   }, { })); 
+
   const addNewUnit = () =>
     setOptions(o => [
       ...o,

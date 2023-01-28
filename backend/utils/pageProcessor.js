@@ -1,10 +1,12 @@
 /*global chrome*/
 import Measure from './Measure.js';
+import { JSDOM } from 'jsdom';
 
-export default function processPage(document, options) {
+export default function processPage(content, options) {
   setupMeasures();
   let regex = constructRegex();
-  let body = document.querySelector("body");
+  let dom = new JSDOM(content);
+  let body = dom.document.querySelector("body");
   deepSearchBodyNodes(body, regex);
 
   function setupMeasures() {

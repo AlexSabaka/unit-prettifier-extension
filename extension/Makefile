@@ -5,7 +5,7 @@
 ch = chromium
 build = build
 dist = dist
-extension_name = UnitPrettifier
+extension_name = tifier
 
 .PHONY: help build
 

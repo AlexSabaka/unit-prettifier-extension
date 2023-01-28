@@ -1,4 +1,4 @@
-## UnitPrettifier Chrome Extension
+## EasyMeasure Chrome Extension
 
 Main goal is to implement an extension that will be used to convert all units on the current opened tab window with the options specified by user.
 
