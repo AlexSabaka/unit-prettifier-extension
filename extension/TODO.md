@@ -19,7 +19,7 @@ v0.1.0
     - [ ] Fix the error with the 'undefined' value in regex object
     - [ ] Add fractional numbers parsing in one character, i.e. ½, etc
 - [x] Move to react based extension
-    - [ ] Fix the error in Convert button onClick, where chrome callback function didn't execute
+    - [x] Fix the error in Convert button onClick, where chrome callback function didn't execute
     - [ ] Add somewhat appealing UI
 - [ ] Refactor options window
     - [ ] Fix number parsing errors

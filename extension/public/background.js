@@ -27,6 +27,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
           const reqHeaders = {
             Accept: "application/json, application/xml, text/plain, text/html, *.*",
             "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "localhost",
           };
           const payload = {
             method: "POST",
