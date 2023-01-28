@@ -25,7 +25,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
         function postPageForProcessing(result) {
           const url = `http://localhost:3000/transform`;
           const reqHeaders = {
-            Accept: "application/json, application/xml, text/plain, text/html, *.*",
+            "Accept": "application/json, application/xml, text/plain, text/html, *.*",
             "Content-Type": "application/json",
             "Access-Control-Allow-Origin": "localhost",
           };
@@ -34,11 +34,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
             headers: reqHeaders,
             body: JSON.stringify({ options: result.options, body: document.body.innerHTML }),
           };
-        
-          console.log(`POST-ing a request to '${url}', with data: `);
-          console.log(payload);
-          console.log(document.body.innerHTML)
-        
+
           fetch(url, payload)
             .then((response) => response.json())
             .then((response) => document.body.innerHTML = response.body)

@@ -1,5 +1,5 @@
 var express = require('express');
-//var processPage = require('../utils/pageProcessor');
+var processPage = require('../utils/processPage.js');
 var router = express.Router();
 
 router.options('/', function (req, res, next) {
@@ -12,10 +12,11 @@ router.options('/', function (req, res, next) {
 /* GET users listing. */
 router.post('/', function(req, res, next) {
   //TODO: add validations
-  const { content, options } = req.body;
-  console.log(options);
-  console.log(content);
-  res.send(req.body); // processPage(content, options));
+  let { content, options } = req.body;
+  var resultPageBody = processPage(content, options);
+
+  //res.header("Content-Type", "text/html");
+  res.send(resultPageBody);
 });
 
 module.exports = router;
