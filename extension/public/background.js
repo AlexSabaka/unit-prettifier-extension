@@ -40,7 +40,6 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
             .then((response) => document.body.innerHTML = response.body)
             .catch((error) => console.error(error));
         }
-
         chrome.storage.sync.get(['options'], postPageForProcessing);
       }
     });

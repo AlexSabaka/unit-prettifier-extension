@@ -1,17 +1,4 @@
-
-function toNumber(s) {
-  const fractionNumberRegex = /[+-]?((?:\d[\d,\.]*\s)*)(\d[\d,\.]*)\/(\d[\d,\.]*)/gm;
-  s = s.toString().replace(',', '');
-  const fractionMatch = fractionNumberRegex.exec(s);
-  if (fractionMatch !== null) {
-    const fractionDivisor = new Number(fractionMatch[2]);
-    const fractionDivider = new Number(fractionMatch[3]);
-    const wholeParts = new Number(fractionMatch[1]);
-    return (wholeParts * fractionDivider + fractionDivisor) / fractionDivider;
-  }
-  return new Number(s.replace(' ', ''));
-}
-
+var { parseNumber } = require('./parseNumber')
 
 class Measure {
   constructor(options) {
@@ -21,7 +8,7 @@ class Measure {
   setupMeasures(options) {
     let ct = this.convertingTable || {};
     for (let key in options) {
-      addUnit(options[key].baseUnit, options[key].actualUnit, toNumber(options[key].factor), toNumber(options[key].offset));
+      addUnit(options[key].baseUnit, options[key].actualUnit, parseNumber(options[key].factor), parseNumber(options[key].offset));
     }
     this.convertingTable = ct;
 
