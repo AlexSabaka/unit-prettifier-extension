@@ -1,30 +1,34 @@
 var Measure = require('./Measure');
 var { JSDOM } = require('jsdom');
 
+var fetch = import('node-fetch');
+//var fetch = import('node-fetch')
+
 const Node = {
   TEXT_NODE: 3
 };
 
-function processLoadedPage(content, options) {
-  let convertingTable = {};
-  let regex = undefined;
+function fetchAndProcessPage(url, options) {
+  return import('node-fetch')
+    .then(fetch => fetch.default(url, { method: 'GET' }))
+    .then(res => res.text())
+    .then(res => processLoadedPage(res, options))
+    .catch(err => console.error(err));
+}
 
-  setupMeasures();
+function processLoadedPage(content, options) {
+  options = options || {};
+  let measure = new Measure(options);
+  let regex = undefined;
+  let document = undefined;
 
   regex = constructRegex();
 
-  let jsdom = new JSDOM(content);
-  let document = jsdom.window.document;
-
+  document = new JSDOM(content).window.document; 
   deepSearchBodyNodes(document.body, regex);
 
   return document.body.innerHTML;
 
-  function setupMeasures() {
-    for (let key in options) {
-      addUnit(options[key].baseUnit, options[key].actualUnit, toNumber(options[key].factor), toNumber(options[key].offset));
-    }
-  }
 
   function constructRegex() {
     const unitSizes = [
@@ -54,7 +58,8 @@ function processLoadedPage(content, options) {
     const unitMultiplier = '(?<unit_mult>' + unitMultipliers.reduce(reducer) + ')?';
     const unit = '(?<unit>' + units.reduce(reducer) + ')';
 
-    return new RegExp(`${number}[\\s-]?${unitSize}[\\s-]${unitMultiplier}${unit}`, 'gmi');
+    let regex = new RegExp(`${number}[\\s-]?${unitSize}[\\s-]?${unitMultiplier}${unit}`, 'gmi');
+    return regex;
   }
 
   function collectUnitsFromOptions() {
@@ -66,9 +71,9 @@ function processLoadedPage(content, options) {
     }
     const makePluralQuantifier = (p) => p === undefined || p === 'off' || p === false ? '' : 's?';
     for (let key in options) {
-      pushUnit(options[key].baseUnit);
-      pushUnit(options[key].actualUnit);
-      pushUnit(options[key].shortFor + makePluralQuantifier(options[key].plural));
+      options[key].baseUnit && pushUnit(options[key].baseUnit);
+      options[key].actualUnit && pushUnit(options[key].actualUnit);
+      options[key].shortFor && pushUnit(options[key].shortFor + makePluralQuantifier(options[key].plural));
     }
     return units;
   }
@@ -93,7 +98,7 @@ function processLoadedPage(content, options) {
     const renderers = searchAndReplaceUnitsWithRenderFunction(node.textContent);
     if (renderers.length > 0) {
       node.parentNode.replaceChild(createDivContainer(renderers), node);
-    } 
+    }
   }
 
   function searchAndReplaceUnitsWithRenderFunction(text) {
@@ -173,54 +178,9 @@ function processLoadedPage(content, options) {
     return [ undefined, undefined ];
   }
 
-  function Measure(unit) {
-    this.currentUnit = unit;
-    this.factor = (x) => x;
-    this.currentMultiplier = 1;
-
-    this.to = function (targetUnit) {
-      const fail = () => { throw new Error(`Cannot convert units from '${this.currentUnit}' to '${targetUnit}'`) };
-      const indirectFactor = () => {
-        const key = Object.keys(convertingTable[this.currentUnit])[0];
-        const tempFactor = convertingTable[key][targetUnit];
-        return (x) => convertingTable[this.currentUnit][key](x) * tempFactor(x);
-      };
-
-      this.factor = convertingTable[this.currentUnit][targetUnit] || indirectFactor() || fail();
-      return this;
-    };
-
-    this.multiplier = function (mult) {
-      if (mult === undefined) {
-        return this;
-      }
-
-      const prefixes = ['T', 'G', 'M', 'k', '', 'd', 'c', 'm', 'u', 'n'];
-      const factors = [12, 9, 6, 3, 0, -1, -2, -3, -6, -9];
-      const index = prefixes.indexOf(mult);
-
-      this.currentMultiplier = index > 0 ? Math.pow(10, factors[index]) : 1;
-      return this;
-    };
-
-    this.convert = function (value) {
-      return this.factor(value) * this.currentMultiplier;
-    };
-  }
-
-  function addUnit(baseUnit, actualUnit, multiplier, offset) {
-    function _add(bu, au, m, o) {
-      convertingTable[au] = convertingTable[au] || {};
-      convertingTable[au][bu] = (x) => m * x + o;
-    }
-
-    _add(baseUnit, actualUnit, multiplier, offset);
-    _add(actualUnit, baseUnit, 1 / multiplier, -offset / multiplier);
-  }
-
   function convert(value, from, to, multiplier = undefined, fractionDigits = 2) {
-    console.log(`Converting value ${value} from '${from}' to '${to}' with function '${convertingTable[from][to]}'`)
-    return new Measure(from).to(to).multiplier(multiplier).convert(value).toFixed(fractionDigits);
+    console.log(`Converting value ${value} from '${from}' to '${to}'`)
+    return measure.fromUnit(from).toUnit(to).value(value).toFixed(fractionDigits);
   }
 }
 
@@ -368,4 +328,4 @@ function processPage(content, options) {
   }
 }
 
-module.exports = processLoadedPage;
+module.exports = fetchAndProcessPage;

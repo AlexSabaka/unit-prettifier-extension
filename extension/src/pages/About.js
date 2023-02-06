@@ -6,26 +6,23 @@ import packageJson from './../../package.json';
 import './About.css';
 import "katex/dist/katex.min.css";
 
-function CopyrightInfo({ author, email, license, version }) {
+function CopyrightInfo() {
   return (
     <div className='Copyright-info'>
-      <div>Author</div>
       <span>
-        <a title='Send email to author' href={`mailto:${email}`}>{author}</a>
+        <a href={`${packageJson.author.coffeeUrl}`}>Buy a ☕ for author ({packageJson.author.name})</a>
       </span>
-      <div>License</div>
-      <span>{license}</span>
       <div>Version</div>
-      <span>v{version}</span>
+      <span>v{packageJson.version}</span>
     </div>
   );
 }
 
-function About() {
+export default function About() {
   return (
     <div className='About'>
       <h2>About</h2>
-      <p>This extension helps you seamlessly convert measurements from one unit to another but only those which relation are in a linear fashion.</p>
+      <p>This extension helps you seamlessly convert measurements from one unit to another. Currently those which relation are linear.</p>
       <p>Linear means that measurements converting law obeys formula:
         <BlockMath>{'y = kx - b'}</BlockMath>
         Where: <br />
@@ -50,15 +47,7 @@ function About() {
           In that case: <InlineMath>{'k = 453.5924 [\\frac{g}{lb}]'}</InlineMath>, and <InlineMath>{'b = 0 [g]'}</InlineMath>
         </p>
       </Expander>
-
-      <CopyrightInfo
-        author={packageJson.author.name}
-        email={packageJson.author.email}
-        license={packageJson.license}
-        version={packageJson.version}
-      />
+      <CopyrightInfo />
     </div>
   );
 }
-
-export default About;

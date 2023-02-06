@@ -6,7 +6,7 @@
   "background": {
     "service_worker": "./background.js"
   },
-  "permissions": ["storage", "tabs", "activeTab", "scripting", "nativeMessaging"],
+  "permissions": ["storage", "activeTab", "scripting", "nativeMessaging"],
   "author": "Alex Sabaka",
   "short_name": "EasyMeasure",
   "action": {

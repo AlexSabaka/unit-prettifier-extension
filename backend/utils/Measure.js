@@ -40,10 +40,10 @@ class Measure {
     return this;
   }
 
-  value(v, digits) {
-    let result = this.currentUnit === this.targetUnit ? v : this.factor(v);
-    let digitsFactor = Math.pow(10, digits || 2);
-    return Math.round(result * digitsFactor) / digitsFactor;
+  value(value) {
+    value = parseNumber(value);
+    let result = this.currentUnit === this.targetUnit ? value : this.factor(value);
+    return result;
   }
 }
 

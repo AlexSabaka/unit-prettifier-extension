@@ -4,23 +4,67 @@ import Button from './../components/Button';
 import Expander from './../components/Expander';
 import './Options.css';
 
+const defaultOptions = [
+  {
+    "baseUnit": "g",
+    "actualUnit": "lb",
+    "shortFor": "pound",
+    "plural": true,
+    "factor": 432,
+    "offset": 0.0
+  }, {
+    "baseUnit": "g",
+    "actualUnit": "oz",
+    "shortFor": "ounce",
+    "plural": true,
+    "factor": 28.3495,
+    "offset": 0.0
+  }, {
+    "baseUnit": "C",
+    "actualUnit": "F",
+    "shortFor": "Fahrenheit",
+    "plural": true,
+    "factor":  0.5555555555555556,
+    "offset": -17.777
+  }, {
+    "baseUnit": "ml",
+    "shortFor": "cup",
+    "plural": true,
+    "factor":  200,
+    "offset": 0
+  }, {
+    "baseUnit": "ml",
+    "shortFor": "tablespoon",
+    "plural": true,
+    "factor":  12,
+    "offset": 0
+  }, {
+    "baseUnit": "ml",
+    "shortFor": "teaspoon",
+    "plural": true,
+    "factor":  2.5,
+    "offset": 0
+  } ];
+
 function UnitHeader({ collapsed, unitName, onDelete }) {
   return (
-    <div style={{ display: 'grid', columns: 2 }}>
-      <div>{(collapsed ? 'Expand' : 'Collapse') + ` (${unitName})`}</div>
-      <Button onClick={onDelete} content='-' style={{ color: 'red', width: '15px', height: '15px' }} />
+    <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', paddingLeft: '2rem', paddingRight: '2rem' }}>
+      <div>{`${collapsed ? 'Expand' : 'Collapse'} (${unitName})`}</div>
+      <Button onClick={onDelete} style={{ color: 'red', width: '0.5rem', height: '0.5rem', marginLeft: '10rem' }}>
+        <div style={{ marginLeft: '-0.3rem', marginTop: '-0.8rem'}}>x</div>
+      </Button>
     </div>
   );
 }
 
 function UnitMeasureTableRow(props) {
   const [ value, setValue ] = useState(props.value);
-  const { onChange, onDelete } = props;
+  const { id, onChange, onDelete, disabled } = props;
 
   const handleChange = (e) => {
     setValue(v => {
       const newValue = { ...v, [e.target.name]: e.target.value };
-      onChange(props.id, newValue);
+      onChange(id, newValue);
       return newValue;
     });
   };
@@ -31,12 +75,12 @@ function UnitMeasureTableRow(props) {
         x => <UnitHeader collapsed={x} unitName={value.shortFor || value.actualUnit} onDelete={() => onDelete(props.id, value)} />
       } >
         <div>
-          <label>Base Unit</label><input type="text" name="baseUnit" value={value.baseUnit} onChange={handleChange} /><br />
-          <label>Actual Unit</label><input type="text" name="actualUnit" value={value.actualUnit} onChange={handleChange} /><br />
-          <label>Shortened For</label><input type="text" name="shortFor" value={value.shortFor} onChange={handleChange} /><br />
-          <label>Allow Plural</label><input type="checkbox" name="plural" checked={value.plural} onChange={handleChange} /><br />
-          <label>Coefficient</label><input type="text" name="factor" value={value.factor} onChange={handleChange} /><br />
-          <label>Offset (optional)</label><input type="text" name="offset" value={value.offset} onChange={handleChange} /><br />
+          <label>Base Unit</label><input disabled={disabled} type="text" name="baseUnit" value={value.baseUnit} onChange={handleChange} /><br />
+          <label>Actual Unit</label><input disabled={disabled} type="text" name="actualUnit" value={value.actualUnit} onChange={handleChange} /><br />
+          <label>Shortened For</label><input disabled={disabled} type="text" name="shortFor" value={value.shortFor} onChange={handleChange} /><br />
+          <label>Allow Plural</label><input disabled={disabled} type="checkbox" name="plural" checked={value.plural} onChange={handleChange} /><br />
+          <label>Coefficient</label><input disabled={disabled} type="text" name="factor" value={value.factor} onChange={handleChange} /><br />
+          <label>Offset (optional)</label><input disabled={disabled} type="text" name="offset" value={value.offset} onChange={handleChange} /><br />
         </div>
       </Expander>
     </div>
@@ -58,15 +102,9 @@ function UnitMeasurementsTable({ options, onAdd, onClear, onDelete, onChange }) 
 }
 
 function Options() {
-  const [options, setOptions] = useState([
-    { baseUnit: 'g', actualUnit: 'lb', shortFor: 'pound', plural: true, factor: '432', offset: '0' },
-    { baseUnit: 'g', actualUnit: 'oz', shortFor: 'ounce', plural: true, factor: '28.35', offset: '0' }
-  ]);
+  const [options, setOptions] = useState(defaultOptions);
 
-  // const saveOptions = () =>
-  //   writeSyncStorage('opts', options.reduce((acc, c) => {
-  //     return { ...acc, [c.actualUnit]: c };
-  //   }, { })); 
+  // const saveOptions = () => chrome.storage.sync.set({ 'options': options });
 
   const addNewUnit = () =>
     setOptions(o => [
@@ -84,12 +122,18 @@ function Options() {
       u,
       ...o.slice(k + 1, o.length)
     ]);
-  const deleteAllUnits = () => setOptions([]);
+  const deleteAllUnits = () =>
+    setOptions([]);
 
-  // useEffect(async () => {
+  // useEffect(() => {
   //   try {
-  //     const opts = await readSyncStorage('opts');
-  //     setOptions(Object.keys(opts).reduce((acc, c) => [...acc, c], []));
+  //     chrome.storage.sync.get(['options'], function (result) {
+  //       if (result === undefined || result === null || result.length === 0) {
+  //         chrome.storage.sync.set({ 'options': defaultOptions });
+  //         setOptions(defaultOptions);
+  //       }
+  //       setOptions(result);
+  //     });
   //   } catch (err) {
   //     console.log(err);
   //   }

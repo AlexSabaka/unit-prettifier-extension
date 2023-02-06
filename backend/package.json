@@ -8,8 +8,10 @@
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
+    "cors": "^2.8.5",
     "debug": "~2.6.9",
     "express": "^4.18.2",
+    "fetch": "^1.1.0",
     "fs": "0.0.1-security",
     "http-errors": "~1.6.3",
     "https": "^1.0.0",
@@ -17,6 +19,7 @@
     "jsdom": "^21.1.0",
     "mongoose": "^6.9.0",
     "morgan": "~1.9.1",
+    "node-fetch": "^3.3.0",
     "pegjs": "^0.10.0"
   }
 }

@@ -14,7 +14,7 @@ help:
 	@exit 0
 
 build:
-	@echo 'Preparing new extension build..' 
+	@echo 'Preparing new extension build...' 
 	@export INLINE_RUNTIME_CHUNK=false; \
 	export GENERATE_SOURCEMAP=false; \
 	npm run-script build
@@ -34,9 +34,11 @@ pack:
 	@exit 0
 
 publish:
-	@echo 'Packing extension for the publishing in the Chrome Web Store'
-	@echo 'Not implemented'
-	@exit 255
+	@echo 'Preparing extension for publishing in the Chrome Web Store...'
+	@rm -f $(extension_name).zip
+	@zip $(extension_name).zip -r ./$(dist)/
+	@echo 'Done'
+	@exit 0
 
 clean:
 	@echo 'Cleaning...'

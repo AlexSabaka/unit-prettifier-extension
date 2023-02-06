@@ -5,7 +5,8 @@
   "license": "BSD-3 Clause",
   "author": {
     "name": "Alex Sabaka",
-    "email": "alex.love.broadcast@gmail.com"
+    "email": "alex.love.broadcast@gmail.com",
+    "coffeeUrl": "https://www.buymeacoffee.com/alexsab"
   },
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
