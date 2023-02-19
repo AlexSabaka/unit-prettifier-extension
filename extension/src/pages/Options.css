@@ -1,16 +1,39 @@
+.Options {
+  font-size: medium;
+}
+
+.Options > h2 {
+  text-align: center;
+  margin-bottom: 0em;
+  margin-top: 0em;
+  padding-bottom: 0em;
+}
+
+.Options > p {
+  text-indent: 1em;
+  margin-bottom: 0.5em;
+  margin-right: 1rem;
+  margin-left: 1rem;
+}
 
 .Options-table {
   scroll-behavior: auto;
+  font-size: medium;
   width: 100%;
 }
 
-input {
-  margin-right: 10px;
+input, select {
+  margin-right: 1rem;
+  width: 10rem;
   float: right;
 }
 
+input[type="checkbox"] {
+  margin-right: 5rem;
+}
+
 label {
-  margin-left: 10px;
+  margin-left: 1rem;
 }
 
 .Options-measure-unit {
@@ -24,4 +47,6 @@ label {
   font-size: 12px;
   display: flex;
   flex-direction: row;
+  justify-content: center;
+  gap: 3rem;
 }

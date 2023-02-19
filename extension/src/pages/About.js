@@ -1,22 +1,11 @@
 /*global chrome*/
 import { InlineMath, BlockMath } from "react-katex";
 import Expander from './../components/Expander';
-import packageJson from './../../package.json';
+import CopyrightInfo from './../components/CopyrightInfo';
 
 import './About.css';
 import "katex/dist/katex.min.css";
-
-function CopyrightInfo() {
-  return (
-    <div className='Copyright-info'>
-      <span>
-        <a href={`${packageJson.author.coffeeUrl}`}>Buy a ☕ for author ({packageJson.author.name})</a>
-      </span>
-      <div>Version</div>
-      <span>v{packageJson.version}</span>
-    </div>
-  );
-}
+import BuyCoffeeLinkButton from "../components/BuyCoffeeLinkButton";
 
 export default function About() {
   return (
@@ -36,7 +25,7 @@ export default function About() {
         <p>
           For example, here is how to convert <strong>Fahrenheit's</strong> to <strong>Celsius</strong>: 
           <BlockMath>{'y [\\degree C] = \\frac{5}{9}x [\\degree F] - \\frac{160}{9}'}</BlockMath>
-          In that case: <InlineMath>{'k = \\frac{5}{9} [\\frac{\\degree C}{\\degree F}]'}</InlineMath>, and <InlineMath>{'b = -\\frac{160}{9} [\\degree C]'}</InlineMath>
+          In that case: <InlineMath>{'k = \\frac{5}{9} [\\frac{\\degree C}{\\degree F}]'}</InlineMath>, and <InlineMath>{'b = \\frac{160}{9} [\\degree C]'}</InlineMath>
         </p>
       </Expander>
 
@@ -47,6 +36,15 @@ export default function About() {
           In that case: <InlineMath>{'k = 453.5924 [\\frac{g}{lb}]'}</InlineMath>, and <InlineMath>{'b = 0 [g]'}</InlineMath>
         </p>
       </Expander>
+
+      <br />
+      <br />
+
+      <BuyCoffeeLinkButton />
+
+      <br />
+      <br />
+
       <CopyrightInfo />
     </div>
   );

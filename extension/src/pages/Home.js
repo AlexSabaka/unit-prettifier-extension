@@ -1,6 +1,7 @@
 /*global chrome*/
-import { processCurrentTab } from '../utils/pageProcessor';
+import { processCurrentTab } from '../utils/processCurrentTab';
 import Button from './../components/Button';
+import BuyCoffeeLinkButton from './../components/BuyCoffeeLinkButton';
 import './Home.css';
 
 function Home() {

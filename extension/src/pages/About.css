@@ -1,11 +1,13 @@
 .About {
-  font-size: small;
+  font-size: medium;
   padding: 0em 1em 1em 1em;
 }
 
 .About > p {
   text-indent: 1em;
   margin-bottom: 0.5em;
+  margin-left: 1rem;
+  margin-right: 1rem;
 }
 
 .About > h2 {
@@ -16,8 +18,8 @@
 }
 
 .About > .Copyright-info {
-  font-family: 'Courier New', Courier, monospace;
-  font-size: 0.6em;
+  font-family: 'Roboto', sans-serif;
+  font-size: 1em;
   position: absolute;
   color: lightgray;
   right: 0px;

@@ -1,156 +1,91 @@
 /*global chrome*/
 import React, { useState, useEffect } from 'react';
-import Button from './../components/Button';
-import Expander from './../components/Expander';
 import './Options.css';
+import { UnitMeasurementsTable } from './UnitMeasurementsTable';
+import { defaultOptions, insertionsOptions } from '../utils/options';
+import { useMemo } from 'react';
 
-const defaultOptions = [
-  {
-    "baseUnit": "g",
-    "actualUnit": "lb",
-    "shortFor": "pound",
-    "plural": true,
-    "factor": 432,
-    "offset": 0.0
-  }, {
-    "baseUnit": "g",
-    "actualUnit": "oz",
-    "shortFor": "ounce",
-    "plural": true,
-    "factor": 28.3495,
-    "offset": 0.0
-  }, {
-    "baseUnit": "C",
-    "actualUnit": "F",
-    "shortFor": "Fahrenheit",
-    "plural": true,
-    "factor":  0.5555555555555556,
-    "offset": -17.777
-  }, {
-    "baseUnit": "ml",
-    "shortFor": "cup",
-    "plural": true,
-    "factor":  200,
-    "offset": 0
-  }, {
-    "baseUnit": "ml",
-    "shortFor": "tablespoon",
-    "plural": true,
-    "factor":  12,
-    "offset": 0
-  }, {
-    "baseUnit": "ml",
-    "shortFor": "teaspoon",
-    "plural": true,
-    "factor":  2.5,
-    "offset": 0
-  } ];
 
-function UnitHeader({ collapsed, unitName, onDelete }) {
-  return (
-    <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', paddingLeft: '2rem', paddingRight: '2rem' }}>
-      <div>{`${collapsed ? 'Expand' : 'Collapse'} (${unitName})`}</div>
-      <Button onClick={onDelete} style={{ color: 'red', width: '0.5rem', height: '0.5rem', marginLeft: '10rem' }}>
-        <div style={{ marginLeft: '-0.3rem', marginTop: '-0.8rem'}}>x</div>
-      </Button>
-    </div>
-  );
-}
-
-function UnitMeasureTableRow(props) {
-  const [ value, setValue ] = useState(props.value);
-  const { id, onChange, onDelete, disabled } = props;
-
-  const handleChange = (e) => {
-    setValue(v => {
-      const newValue = { ...v, [e.target.name]: e.target.value };
-      onChange(id, newValue);
-      return newValue;
-    });
-  };
-
-  return (
-    <div className='Options-measure-unit'>
-      <Expander header={
-        x => <UnitHeader collapsed={x} unitName={value.shortFor || value.actualUnit} onDelete={() => onDelete(props.id, value)} />
-      } >
-        <div>
-          <label>Base Unit</label><input disabled={disabled} type="text" name="baseUnit" value={value.baseUnit} onChange={handleChange} /><br />
-          <label>Actual Unit</label><input disabled={disabled} type="text" name="actualUnit" value={value.actualUnit} onChange={handleChange} /><br />
-          <label>Shortened For</label><input disabled={disabled} type="text" name="shortFor" value={value.shortFor} onChange={handleChange} /><br />
-          <label>Allow Plural</label><input disabled={disabled} type="checkbox" name="plural" checked={value.plural} onChange={handleChange} /><br />
-          <label>Coefficient</label><input disabled={disabled} type="text" name="factor" value={value.factor} onChange={handleChange} /><br />
-          <label>Offset (optional)</label><input disabled={disabled} type="text" name="offset" value={value.offset} onChange={handleChange} /><br />
-        </div>
-      </Expander>
-    </div>
-  );
-}
-
-function UnitMeasurementsTable({ options, onAdd, onClear, onDelete, onChange }) {
-  return (
-    <div>
-      <div className='Measure-unit-buttons'>
-        <Button onClick={onAdd} content='Add unit...' disabled />
-        <Button onClick={onClear} content='Delete all' style={{ color: 'red' }} disabled={Object.keys(options).length === 0} />
-      </div>
-      <div className='Options-table'>
-        {options.map((v, k) => { return <UnitMeasureTableRow key={k} id={k} value={v} onDelete={onDelete} onChange={onChange} /> })}
-      </div>
-    </div>
-  );
-}
 
 function Options() {
-  const [options, setOptions] = useState(defaultOptions);
+  const [globalOptions, setGlobalOptions] = useState({
+    insertionOptions: '',
+    processOnLoaded: false
+  });
+  const [unitOptions, setUnitOptions] = useState([]);
 
-  // const saveOptions = () => chrome.storage.sync.set({ 'options': options });
-
-  const addNewUnit = () =>
-    setOptions(o => [
+  const restoreDefaultUnits = () => {
+    setUnitOptions(defaultOptions.units);
+  };
+  const handleGlobalOptionChange = (e) => {
+    setGlobalOptions(v => {
+      return {
+        ...globalOptions,
+        [e.target.name]: e.target.value,
+      };
+    });
+  };
+  const addNewUnit = function () {
+    setUnitOptions(o => [
       ...o,
       { baseUnit: '', actualUnit: '', shortFor: '', plural: '', factor: '', offset: '' }
     ]);
-  const deleteUnit = (k, u) =>
-    setOptions(o => [
-      ...o.slice(0, k),
-      ...o.slice(k + 1, o.length)
-    ]);
-  const editUnit = (k, u) =>
-    setOptions(o => [
+  };
+  const deleteUnit = function (k, u) {
+    setUnitOptions(o => o.filter((x, i) => i !== k));
+  };
+  const editUnit = function (k, u) {
+    setUnitOptions(o => [
       ...o.slice(0, k),
       u,
-      ...o.slice(k + 1, o.length)
+      ...o.slice(k + 1)
     ]);
-  const deleteAllUnits = () =>
-    setOptions([]);
+  };
+  const deleteAllUnits = function () {
+    setUnitOptions([]);
+  };
+  
+  useEffect(() => {
+    chrome.storage.sync.get(['options'], (res) => {
+      setUnitOptions(res.options.units || defaultOptions.units);
+      setGlobalOptions({
+        insertionOptions: res.options.insertionOptions || defaultOptions.insertionOptions,
+        processOnLoaded: res.options.processOnLoaded || defaultOptions.processOnLoaded,
+      });
+    });
+  }, []);
 
-  // useEffect(() => {
-  //   try {
-  //     chrome.storage.sync.get(['options'], function (result) {
-  //       if (result === undefined || result === null || result.length === 0) {
-  //         chrome.storage.sync.set({ 'options': defaultOptions });
-  //         setOptions(defaultOptions);
-  //       }
-  //       setOptions(result);
-  //     });
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // });
+  useEffect(() => {
+    const options = {
+      units: unitOptions,
+      ...globalOptions
+    };
+    chrome.storage.sync.set({ 'options': options });
+  }, [globalOptions, unitOptions]);
 
   return (
     <div className='Options'>
-      <p>Setup your conversion units here</p>
+      <h2>Options</h2>
+      <p>Setup your conversion units and other options here</p>
       <div>
-        <UnitMeasurementsTable
-          options={options}
-          onAdd={addNewUnit}
-          onClear={deleteAllUnits}
-          onChange={editUnit}
-          onDelete={deleteUnit}
-        />
+        <label>Select replacement style for found units</label>
+        <select name="insertionOptions" value={globalOptions.insertionOptions} onChange={handleGlobalOptionChange} style={{ textTransform: "capitalize" }}>
+          {insertionsOptions.map((x, i) => <option key={i} value={x}>{x.replace("_", " ")}</option>)}
+        </select>
       </div>
+      <div>
+        <label>Process page when it's loaded</label>
+        <input type="checkbox" name="processOnLoaded" defaultChecked={globalOptions.processOnLoaded} onChange={handleGlobalOptionChange}></input>
+      </div>
+      <br />
+      <UnitMeasurementsTable
+        units={unitOptions}
+        onAdd={addNewUnit}
+        onClear={deleteAllUnits}
+        onChange={editUnit}
+        onDelete={deleteUnit}
+        onRestoreDefaults={restoreDefaultUnits}
+      />
     </div>
   );
 }

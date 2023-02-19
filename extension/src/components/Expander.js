@@ -12,7 +12,7 @@ function Expander({ header, expanded, children, className }) {
   };
 
   return (
-    <div className={`Expander ${className}`}>
+    <div className={`Expander ${className || ''}`}>
       <div className='Expander-header'>
         <a className='Expander-header-link' href='#' onClick={toggleExpander}>
           {headerComponent}

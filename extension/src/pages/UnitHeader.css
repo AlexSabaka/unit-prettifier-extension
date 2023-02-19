@@ -1,0 +1,19 @@
+.Unit-Header {
+  display: grid;
+  grid-template-columns: auto 10rem;
+}
+
+.Unit-Header > .App-Button {
+  color: rgb(189, 71, 71);
+  width: 0.5rem;
+  height: 0.5rem;
+  position: relative;
+  transform: translateY(-50%);
+  top: 50%;
+}
+
+.Unit-Header > .App-Button > div {
+  font-size: x-small;
+  transform: translate(-1rem, -50%);
+}
+
